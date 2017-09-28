@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import logo from './logo.svg';
 import './App.css';
+
 // USING STATE AND PROPS IN A COMPONENT TO PASS IN DATA
 //==== THIS COMPONENT INPUTS ALL OTHER COMPONENTS WITH XML JSX ====
 class App extends Component {
@@ -21,9 +23,6 @@ class App extends Component {
     }
         <Header header={this.state.headerText}/>
         <Content content={this.state.contentText}/>
-        {// "Date" is now a prop of "Clock Component"
-        }
-        <Clock />
       </div>
     );
   }
@@ -39,119 +38,51 @@ class Header extends Component {
   render(){
     return(
       <header className="App-header">
-      <p> {this.props.header}</p>
         <img src={logo} className="App-logo" alt="logo" />
         <h1 className="App-title">Welcome to React</h1>
       </header>
     );
   }
 }
-
-class Clock extends Component {
-  constructor(props){
-    super(props);
-
-    // Use this "state to display your data"
-    // The construcotr is the only place where you set "this.state"
-    // It is otherwise used as "this.setState"
-    this.state = {
-      date: new Date()
-    };
-  }
-
-  // LIFECYCLE METHODS:
-  // Each component has several "lifecycle methods" that you can override to run
-  // code at particular times in the process. Methods prefixed with will are
-  // called right before something happens, and methods prefixed with did are
-  // called right after something happens.
-
-  componentDidMount(){
-    this.timeID = setInterval(
-      () => {this.tick()}
-  , 1000 )
-  }
-
-  tick(){
-    this.setState({
-      date: new Date()
-    });
-  }
-
-  // componentWillUnmount(){
-  //   clearInterval(timeID)
-  // }
-
+class Content extends Component {
   render(){
     return(
       <div>
-        <h2>The Current Time Is: {this.state.date.toLocaleTimeString()}</h2>
+        <div className="App-intro">
+        </div>
+        <div>
+        <h2>Array: {this.props.propArray}</h2>
+        </div>
       </div>
+
     );
   }
 }
+// Adding properties to Components (in this case "Content")
+Content.propTypes = {
+  // The way yo access properties, we use "React" object
+  // Tells component this is an array.  "isRequired" makes it madatory
+  propArray: React.PropTypes.array.isRequired,
+  // Creates a boolean
+  propBool: React.PropTypes.bool.isRequired,
+  // Creates a function
+  propFunction: React.proptypes.func,
+  propNumber: React.PropTypes.number,
+  propString: React.PropTypes.string,
+  propObject: React.PropTypes.object
+}
 
-class Content extends Component {
-  constructor(props){
-    super(props);
-    // This is a state with data
-    this.state = {
-      data: [
-        {
-          "id": 1,
-          "name": "Hey",
-          "age": 30
-        },
-        {
-          "id": 2,
-          "name": "He",
-          "age": 20
-        },
-        {
-          "id": 3,
-          "name": "fey",
-          "age": 10
-        }
-      ]
-    };
-  }
-  render(){
-    return(
-      <p className="App-intro">
-      <h1> What is JSX? </h1>
-      <p> {this.props.header} </p>
-        <table>
-          <thead>
-            <th>
-              <td>Id</td>
-              <td>Name</td>
-              <td>Age</td>
-            </th>
-          </thead>
-          <tbody>
-          {// For any component displayed, you must have a key
-          // data is like an HTML attribute, and can be called with "props"
-          }
-            {this.state.data.map((person, i) => <TableRow key={i} data={person}/>)}
-          </tbody>
-        </table>
-      </p>
-    );
+Content.defaultProps = {
+  propArray: [1,2,3,4,5],
+  propBool: 'true',
+  propFunc: function(e) {return},
+  propNumber: 2,
+  propString: 'Hi man',
+  propObject: {
+    name1: "Matt",
+    age: "3"
   }
 }
 
-
-class TableRow extends Component {
-  render(){
-    return(
-      <tr>
-        <td>
-          {this.props.data.id}
-          {this.props.data.name}
-          {this.props.data.age}
-        </td>
-      </tr>
-    );
-  }
-}
 
 export default App;
