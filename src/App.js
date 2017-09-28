@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 // USING STATE AND PROPS IN A COMPONENT TO PASS IN DATA
-// THIS COMPONENT INPUTS ALL OTHER COMPONENTS WITH XML JSX
+//==== THIS COMPONENT INPUTS ALL OTHER COMPONENTS WITH XML JSX ====
 class App extends Component {
   constructor(props){
     super(props);
@@ -19,8 +19,8 @@ class App extends Component {
       // <h1>{this.state.headerText}</h1>
       // <p>{this.state.contentText}</p>
     }
-        <Header />
-        <Content />
+        <Header header={this.state.headerText}/>
+        <Content content={this.state.contentText}/>
         {// "Date" is now a prop of "Clock Component"
         }
         <Clock />
@@ -29,10 +29,17 @@ class App extends Component {
   }
 }
 
+// Use default props to display something
+App.defaultProps = {
+  header: "Props from the header...",
+  content: "Props from the content"
+}
+
 class Header extends Component {
   render(){
     return(
       <header className="App-header">
+      <p> {this.props.header}</p>
         <img src={logo} className="App-logo" alt="logo" />
         <h1 className="App-title">Welcome to React</h1>
       </header>
@@ -111,7 +118,7 @@ class Content extends Component {
     return(
       <p className="App-intro">
       <h1> What is JSX? </h1>
-        To get started, edit <code>src/App.js</code> and save to reload.
+      <p> {this.props.header} </p>
         <table>
           <thead>
             <th>
