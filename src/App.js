@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 // USING STATE AND PROPS IN A COMPONENT TO PASS IN DATA
+// THIS COMPONENT INPUTS ALL OTHER COMPONENTS WITH XML JSX
 class App extends Component {
   constructor(props){
     super(props);
@@ -20,6 +21,9 @@ class App extends Component {
     }
         <Header />
         <Content />
+        {// "Date" is now a prop of "Clock Component"
+        }
+        <Clock />
       </div>
     );
   }
@@ -32,6 +36,49 @@ class Header extends Component {
         <img src={logo} className="App-logo" alt="logo" />
         <h1 className="App-title">Welcome to React</h1>
       </header>
+    );
+  }
+}
+
+class Clock extends Component {
+  constructor(props){
+    super(props);
+
+    // Use this "state to display your data"
+    // The construcotr is the only place where you set "this.state"
+    // It is otherwise used as "this.setState"
+    this.state = {
+      date: new Date()
+    };
+  }
+
+  // LIFECYCLE METHODS:
+  // Each component has several "lifecycle methods" that you can override to run
+  // code at particular times in the process. Methods prefixed with will are
+  // called right before something happens, and methods prefixed with did are
+  // called right after something happens.
+
+  componentDidMount(){
+    this.timeID = setInterval(
+      () => {this.tick()}
+  , 1000 )
+  }
+
+  tick(){
+    this.setState({
+      date: new Date()
+    });
+  }
+
+  // componentWillUnmount(){
+  //   clearInterval(timeID)
+  // }
+
+  render(){
+    return(
+      <div>
+        <h2>The Current Time Is: {this.state.date.toLocaleTimeString()}</h2>
+      </div>
     );
   }
 }
