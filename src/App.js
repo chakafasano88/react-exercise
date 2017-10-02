@@ -51,7 +51,13 @@ class Content extends Component {
         <div className="App-intro">
         </div>
         <div>
-        <h2>Array: {this.props.propArray}</h2>
+        <h4>Array: {this.props.propArray}</h4>
+        <h3>Boolean: {this.props.propBool ? "true" : "false"}</h3>
+        <h2>Function: {this.props.propFunc(5)}</h2>
+        <h1>String: {this.props.propString}</h1>
+        <h1>Object: {this.props.propObject.name1}</h1>
+        <h1>Object: {this.props.propObject.age}</h1>
+
         </div>
       </div>
 
@@ -62,20 +68,20 @@ class Content extends Component {
 Content.propTypes = {
   // The way yo access properties, we use "React" object
   // Tells component this is an array.  "isRequired" makes it madatory
-  propArray: React.PropTypes.array.isRequired,
+  propArray: PropTypes.array.isRequired,
   // Creates a boolean
-  propBool: React.PropTypes.bool.isRequired,
+  propBool: PropTypes.bool.isRequired,
   // Creates a function
-  propFunction: React.proptypes.func,
-  propNumber: React.PropTypes.number,
-  propString: React.PropTypes.string,
-  propObject: React.PropTypes.object
+  propFunction: PropTypes.func,
+  propNumber: PropTypes.number,
+  propString: PropTypes.string,
+  propObject: PropTypes.object
 }
 
 Content.defaultProps = {
   propArray: [1,2,3,4,5],
   propBool: 'true',
-  propFunc: function(e) {return},
+  propFunc: function(e) {return e},
   propNumber: 2,
   propString: 'Hi man',
   propObject: {
