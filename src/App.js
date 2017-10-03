@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import logo from './logo.svg';
 import './App.css';
@@ -22,16 +23,10 @@ class App extends Component {
       // <p>{this.state.contentText}</p>
     }
         <Header header={this.state.headerText}/>
-        <Content content={this.state.contentText}/>
+        <Content />
       </div>
     );
   }
-}
-
-// Use default props to display something
-App.defaultProps = {
-  header: "Props from the header...",
-  content: "Props from the content"
 }
 
 class Header extends Component {
@@ -44,51 +39,62 @@ class Header extends Component {
     );
   }
 }
+
 class Content extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      data: [],
+      count: 0,
+    };
+    // Bind class parameters to constructor
+    this.updateMyState = this.updateMyState.bind(this);
+    this.forceUpdateRandomNumber = this.forceUpdateRandomNumber.bind(this);
+    this.findMyDOMNode = this.findMyDOMNode.bind(this);
+
+  }
+
+  updateMyState() {
+    // Accesses the "count" in state object
+    var count = this.state.count;
+    // Adds 1 to count
+    count++;
+    // Outputs a string plus 1
+    var item = "Click -" + count;
+    // puts "data" property in variable
+    var myArray = this.state.data;
+    // pushes the array
+    myArray.push(item);
+    this.setState({date: myArray, count: count});
+  }
+
+  forceUpdateRandomNumber(){
+    this.forceUpdate();
+  }
+  // This allows you to target DOM objects and update CSS or JS
+  // Using the React DOM to update
+  // FIND DOM NODE()
+  findMyDOMNode(){
+    let myDiv = document.getElementById('myDiv');
+    ReactDOM.findDOMNode(myDiv).style.color = 'red';
+  }
+
+
+
   render(){
     return(
       <div>
-        <div className="App-intro">
-        </div>
-        <div>
-        <h4>Array: {this.props.propArray}</h4>
-        <h3>Boolean: {this.props.propBool ? "true" : "false"}</h3>
-        <h2>Function: {this.props.propFunc(5)}</h2>
-        <h1>String: {this.props.propString}</h1>
-        <h1>Object: {this.props.propObject.name1}</h1>
-        <h1>Object: {this.props.propObject.age}</h1>
-
-        </div>
+      <h1> Components api Lecture </h1>
+        <button onClick={this.updateMyState}>Click </button>
+        <h4>  State Data: {this.state.data}</h4>
+        <button onClick={this.forceUpdateRandomNumber}> Random Number</button>
+        <h4>Random Number is: {Math.random()}</h4>
+        <button onClick={this.findMyDOMNode}>Find DOM Node</button>
+        <div id="myDiv" >This is my div</div>
       </div>
-
     );
   }
 }
-// Adding properties to Components (in this case "Content")
-Content.propTypes = {
-  // The way yo access properties, we use "React" object
-  // Tells component this is an array.  "isRequired" makes it madatory
-  propArray: PropTypes.array.isRequired,
-  // Creates a boolean
-  propBool: PropTypes.bool.isRequired,
-  // Creates a function
-  propFunction: PropTypes.func,
-  propNumber: PropTypes.number,
-  propString: PropTypes.string,
-  propObject: PropTypes.object
-}
-
-Content.defaultProps = {
-  propArray: [1,2,3,4,5],
-  propBool: 'true',
-  propFunc: function(e) {return e},
-  propNumber: 2,
-  propString: 'Hi man',
-  propObject: {
-    name1: "Matt",
-    age: "3"
-  }
-}
-
 
 export default App;
