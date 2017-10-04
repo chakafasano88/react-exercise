@@ -10,6 +10,11 @@ ReactDOM.render(
   <App />, document.getElementById('root'));
 registerServiceWorker();
 
+setTimeout(() => {
+  ReactDOM.unmountComponentAtNode(document.getElementById('root'))
+}, 10000)
+
+
 
 
 

@@ -45,53 +45,66 @@ class Content extends Component {
     super(props);
 
     this.state = {
-      data: [],
-      count: 0,
+      data: 0,
     };
-    // Bind class parameters to constructor
-    this.updateMyState = this.updateMyState.bind(this);
-    this.forceUpdateRandomNumber = this.forceUpdateRandomNumber.bind(this);
-    this.findMyDOMNode = this.findMyDOMNode.bind(this);
-
+    this.setNewNumber = this.setNewNumber.bind(this)
   }
 
-  updateMyState() {
-    // Accesses the "count" in state object
-    var count = this.state.count;
-    // Adds 1 to count
-    count++;
-    // Outputs a string plus 1
-    var item = "Click -" + count;
-    // puts "data" property in variable
-    var myArray = this.state.data;
-    // pushes the array
-    myArray.push(item);
-    this.setState({date: myArray, count: count});
+  setNewNumber(){
+    this.setState({data: this.state.data + 1})
   }
-
-  forceUpdateRandomNumber(){
-    this.forceUpdate();
-  }
-  // This allows you to target DOM objects and update CSS or JS
-  // Using the React DOM to update
-  // FIND DOM NODE()
-  findMyDOMNode(){
-    let myDiv = document.getElementById('myDiv');
-    ReactDOM.findDOMNode(myDiv).style.color = 'red';
-  }
-
-
 
   render(){
     return(
       <div>
-      <h1> Components api Lecture </h1>
-        <button onClick={this.updateMyState}>Click </button>
-        <h4>  State Data: {this.state.data}</h4>
-        <button onClick={this.forceUpdateRandomNumber}> Random Number</button>
-        <h4>Random Number is: {Math.random()}</h4>
-        <button onClick={this.findMyDOMNode}>Find DOM Node</button>
-        <div id="myDiv" >This is my div</div>
+        <h1> Components Lifecylce </h1>
+          <button onClick={this.setNewNumber} >Update Numbers</button>
+          <NumberComponent myNumber = {this.state.data}/>
+      </div>
+    );
+  }
+}
+
+class NumberComponent extends Component {
+// Just before rendering
+  componentWillMount(){
+    console.log('WILL MOUNT');
+  }
+// After rendering
+  componentDidMount(){
+    console.log('DID MOUNT');
+  }
+// Just about receive the props from the parent
+  componentWillReceiveProps(newProps){
+    console.log('WILL RECIEVE PROPS');
+  }
+// True are false
+  shouldComponentUpdate(newProps, nextState){
+    console.log('SHOULD COMPONENT UPDATE');
+    return true;
+  }
+// if component needs to update it will
+  componentWillUpdate (newProps, nextState){
+    console.log('WILL UPDATE');
+
+  }
+// Just after updating
+  componentDidUpdate(){
+    console.log('DID UPDATE');
+  }
+// When component mounts
+  componentWillUnmount(){
+    console.log('WILL UNMOUNT');
+
+  }
+
+  constructor(props) {
+    super(props);
+  }
+  render(){
+    return(
+      <div>
+        {this.props.myNumber}
       </div>
     );
   }
