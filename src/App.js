@@ -41,71 +41,163 @@ class Header extends Component {
 }
 
 class Content extends Component {
-  constructor(props) {
+  constructor(props){
     super(props);
 
     this.state = {
-      data: 0,
+      myInputValue: "My-Input"
     };
-    this.setNewNumber = this.setNewNumber.bind(this)
+    this.myInputChanged = this.myInputChanged.bind(this);
   }
 
-  setNewNumber(){
-    this.setState({data: this.state.data + 1})
-  }
+  myInputChanged(e) {
+    let itemValue = e.target.value;
+    this.setState({myInputValue: itemValue})
 
+  }
   render(){
     return(
       <div>
-        <h1> Components Lifecylce </h1>
-          <button onClick={this.setNewNumber} >Update Numbers</button>
-          <NumberComponent myNumber = {this.state.data}/>
+        <h1> Forms In React! </h1>
+        <p>We will learn forms</p>
+        <MyInputComponent inputValue={this.state.myInputValue} myInputChanged={this.myInputChanged}/>
+        <EssayComponent />
+        <FlavorForm />
+        <Reservations />
+        <h4>{this.state.myInputValue}</h4>
+
       </div>
     );
   }
 }
-
-class NumberComponent extends Component {
-// Just before rendering
-  componentWillMount(){
-    console.log('WILL MOUNT');
-  }
-// After rendering
-  componentDidMount(){
-    console.log('DID MOUNT');
-  }
-// Just about receive the props from the parent
-  componentWillReceiveProps(newProps){
-    console.log('WILL RECIEVE PROPS');
-  }
-// True are false
-  shouldComponentUpdate(newProps, nextState){
-    console.log('SHOULD COMPONENT UPDATE');
-    return true;
-  }
-// if component needs to update it will
-  componentWillUpdate (newProps, nextState){
-    console.log('WILL UPDATE');
-
-  }
-// Just after updating
-  componentDidUpdate(){
-    console.log('DID UPDATE');
-  }
-// When component mounts
-  componentWillUnmount(){
-    console.log('WILL UNMOUNT');
-
-  }
-
-  constructor(props) {
-    super(props);
-  }
+class MyInputComponent extends React.Component {
   render(){
     return(
       <div>
-        {this.props.myNumber}
+        <input value={this.props.inputValue} onChange={this.props.myInputChanged}></input>
       </div>
+    );
+  }
+};
+
+class EssayComponent extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      value: 'one upon a time...'
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(e){
+    this.setState({value: e.target.value})
+  }
+
+  handleSubmit(e) {
+    alert(this.state.value)
+    e.preventDefault();
+  }
+
+  render(){
+    return(
+      <form onSubmit={this.handleSubmit} >
+        <textarea value={this.state.value} onChange={this.handleChange}></textarea>
+        <h4>{this.state.value}</h4>
+        <button type='submit'></button>
+      </form>
+    );
+  }
+};
+
+class FlavorForm extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      value: 'grapefruit'
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(e){
+    this.setState({value: e.target.value})
+  }
+
+  handleSubmit(e) {
+    alert(this.state.value)
+    e.preventDefault();
+  }
+
+  render(){
+    return(
+      <form onSubmit={this.handleSubmit} >
+        <label>Pick Your Fav
+          <select onChange={this.handleChange}>
+            <option value="grapefruit">grapefruit</option>
+            <option value="chocolate">chocolate</option>
+            <option value="strawberry">strawberry</option>
+            <option value="blackrasberry">blackrasberry</option>
+          </select>
+        </label>
+        <button type="submit"></button>
+      </form>
+    );
+  }
+};
+
+class Reservations extends Component {
+  constructor(props){
+    super(props)
+
+    this.state = {
+      isGoing: true,
+      numberOfGuests: 2
+    };
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleInputChange(e){
+    const target = e.target;
+    const value = target.type == "checkbox" ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+    console.log(name, value);
+  }
+
+  handleSubmit(e){
+    alert('I will be going'+ this.state.isGoing +"I Will Bring"+ this.state.numberOfGuests )
+    e.preventDefault()
+
+  }
+
+
+  render(){
+    return(
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          Are You Going To The Party?
+          <input
+            name="isGoing"
+            type="checkbox"
+            checked={this.state.isGoing}
+            onChange={this.handleInputChange}
+            >
+          </input>
+          <button type="submit">Click</button>
+        </label>
+        <br/>
+        <label>
+          Are You Going To The Party?
+          <input name="numberOfGuests" type="number" value={this.state.numberOfGuests} onChange={this.handleInputChange}>
+          </input>
+        </label>
+        <input type="submit" value="submit" />
+      </form>
     );
   }
 }
