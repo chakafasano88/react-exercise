@@ -3,7 +3,9 @@ import React, {Component} from 'react';
 class BlogSingle extends Component {
   render(){
     return(
-      <h2>BlogSingle</h2>
+      <div>
+        <h2>BlogSingleBitch</h2>
+      </div>
     );
   }
 

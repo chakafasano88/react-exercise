@@ -6,6 +6,8 @@ import Home from './Home';
 import About from './About';
 import Contact from './Contact';
 import Blog from './Blog';
+import BlogSingle from './BlogSingle';
+
 import {
   BrowserRouter as Router,
   Route,
@@ -23,18 +25,19 @@ ReactDOM.render(
       </ul>
 
       <hr/>
-
-      <App />
-
       <Route exact path="/" component={Home}/>
       <Route path="/about" component={About}/>
       <Route path="/contact" component={Contact}/>
-      <Route path="/blog" component={Blog}/>
+      <Route path="/blog" component={Blog}>
+        <Route path="/blog/:postId" component={BlogSingle} />
+      </Route>
 
     </div>
   </Router>,
   document.getElementById('root')
 );
+
+
 // setTimeout(() => {
 //   ReactDOM.unmountComponentAtNode(document.getElementById('root'))
 // }, 10000)
