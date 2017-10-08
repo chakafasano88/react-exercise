@@ -1,37 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import Home from './Home';
 import About from './About';
 import Contact from './Contact';
 import Blog from './Blog';
-import BlogSingle from './BlogSingle';
 
-import {
-  BrowserRouter as Router,
-  Route,
-  Link
-} from 'react-router-dom'// This is where you call your app
+import {BrowserRouter as Router, Route, NavLink, Switch} from 'react-router-dom'// This is where you call your app
 
 ReactDOM.render(
   <Router>
     <div>
       <ul>
-        <li><Link style={{color: "red"}} className="dog" to="/">Home</Link></li>
-        <li><Link to="/about">About</Link></li>
-        <li><Link to="/contact">Contact</Link></li>
-        <li><Link to="/blog">Blog</Link></li>
+        <li><NavLink style={{color: "red"}} className="dog" to="/">Home</NavLink></li>
+        <li><NavLink to="/about">About</NavLink></li>
+        <li><NavLink to="/contact">Contact</NavLink></li>
+        <li><NavLink to="/blog">Blog</NavLink></li>
       </ul>
 
       <hr/>
-      <Route exact path="/" component={Home}/>
-      <Route path="/about" component={About}/>
-      <Route path="/contact" component={Contact}/>
-      <Route path="/blog" component={Blog}>
-        <Route path="/blog/:postId" component={BlogSingle} />
-      </Route>
-
+      <Switch>
+        <Route exact path="/" component={Home}/>
+        <Route path="/about" component={About}/>
+        <Route path="/contact" component={Contact}/>
+        <Route path="/blog" component={Blog}/>
+      </Switch>
     </div>
   </Router>,
   document.getElementById('root')
